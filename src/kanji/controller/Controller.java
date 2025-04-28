@@ -3,7 +3,6 @@ package kanji.controller;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
-
 import kanji.model.Kanji;
 import kanji.view.KanjiFrame;
 

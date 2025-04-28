@@ -11,12 +11,16 @@ public class KanjiPanel
 	private SpringLayout layout;
 	private JButton kanjiButton;
 	
+	private KanjiCharacterPanel charactersPanel;
+	
 	public KanjiPanel(Controller app)
 	{
 		super();
 		
 		this.controller = controller;
 		this.layout = new SpringLayout();
+		
+		this.charactersPanel = new KanjiCharacterPanel(app);
 		
 		setupPanel();
 		setupListeners();

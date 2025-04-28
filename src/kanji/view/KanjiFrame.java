@@ -22,7 +22,7 @@ public class KanjiFrame extends JFrame
 	
 	private void setupFrame()
 	{
-		setTitle("Java Artwork");
+		setTitle("Kanji Project");
 		setSize(1200, 900);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);

@@ -4,6 +4,9 @@ import kanji.view.KanjiFrame;
 
 public class Controller
 {
+	private String KanjiURLBase;
+	
+	
 	private KanjiFrame window;
 	
 	public Controller()

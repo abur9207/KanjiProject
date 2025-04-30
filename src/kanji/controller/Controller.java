@@ -12,6 +12,7 @@ public class Controller
 	private String appendForJSON;
 	private String defaultTag;
 	private ArrayList<Kanji> kanjiList;
+	public Kanji currentKanji;
 	
 	private KanjiFrame window;
 	
@@ -27,7 +28,7 @@ public class Controller
 	
 	public void start()
 	{
-		testKanjiAPI();
+		//testKanjiAPI();
 	}
 	
 	public void testKanjiAPI()
@@ -54,26 +55,11 @@ public class Controller
 		
 		return data;
 	}
-	public String addKanji (String tag)
+	public Kanji addKanji(String character, String jlpt, String [] kunReadings, String [] onReadings, String [] meanings)
 	{
-		String catDetails = "";
+		currentKanji = new Kanji(character, jlpt, kunReadings, onReadings, meanings);
 		
-		if (tag == null || tag.length() < 3) // makes sure that the tag is valid
-		{
-			tag = defaultTag;
-		}
-		
-		Kanji retrievedCat = (Kanji) IOController.readSingleJSON(this, KanjiURLBase, tag + appendForJSON);
-		
-		kanjiList.add(retrievedCat);
-		
-		if (retrievedCat != null) // makes sure we dont try to retrieve a toString of a null value. which would cause an error
-		{
-			catDetails = retrievedCat.toString();
-		}
-		
-		
-		return catDetails;
+		return currentKanji;
 	}
 }
 

@@ -1,5 +1,11 @@
 package kanji.controller;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -9,8 +15,9 @@ import kanji.view.KanjiFrame;
 public class Controller
 {
 	private String KanjiURLBase;
+	
 	private String appendForJSON;
-	private String defaultTag;
+	private String selectedKanji;
 	private ArrayList<Kanji> kanjiList;
 	public Kanji currentKanji;
 	
@@ -20,23 +27,10 @@ public class Controller
 	{
 		this.KanjiURLBase = "https://kanjiapi.dev/v1/kanji/";
 		this.appendForJSON = "?json=true";
-		this.defaultTag = "猫";
+		this.selectedKanji = "猫";
 		this.kanjiList = new ArrayList<Kanji>();
 		
 		this.window = new KanjiFrame(this);
-	}
-	
-	public void start()
-	{
-		//testKanjiAPI();
-	}
-	
-	public void testKanjiAPI()
-	{
-		Kanji demoKanji = new Kanji("person", "N5", null, null, null);
-		
-		String result = "toString:\n" + demoKanji.toString();
-		System.out.println(result);
 	}
 	
 	public void handleError(Exception error)
@@ -55,12 +49,63 @@ public class Controller
 		
 		return data;
 	}
-	public Kanji addKanji(String character, String jlpt, String [] kunReadings, String [] onReadings, String [] meanings)
+	
+	public void start()
 	{
-		currentKanji = new Kanji(character, jlpt, kunReadings, onReadings, meanings);
-		
-		return currentKanji;
+		//testKanjiAPI();
+		getKanjiURL("猫");
 	}
+	
+	public void testKanjiAPI()
+	{
+		Kanji demoKanji = new Kanji("person", "N5", null, null, null);
+		
+		String result = "toString:\n" + demoKanji.toString();
+		System.out.println(result);
+	}
+	
+	public URL getKanjiURL (String character)
+	{
+		URL kanjiURL = null;
+		
+		String kanjiName = "";
+		
+		try
+		{
+			kanjiURL = URI.create(KanjiURLBase + character).toURL();
+		}
+		catch (MalformedURLException error)
+		{
+			handleError(error);
+		}
+		System.out.println(kanjiURL);
+		
+		return kanjiURL;
+		
+	}
+	
+	public void JsonApiReader (String character)
+	{
+		
+		try
+		{
+		URL url = getKanjiURL(character);
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod("GET");
+		connection.connect();
+		
+		int responsecode = connection.getResponseCode();
+		}
+		catch (IOException error)
+		{
+			handleError(error);
+		}
+		
+		//continue working here
+	}
+	
+	
+
 }
 
 

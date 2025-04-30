@@ -1,6 +1,7 @@
 package kanji.view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -30,6 +31,9 @@ public class KanjiCharacterPanel extends JPanel
 		this.displayedCharacter = new JLabel("猫");
 		this.displayPanel = new JPanel(new GridLayout(1,0));
 		
+		Font characterFont = new Font("Ariel", Font.PLAIN, 300);
+		displayedCharacter.setFont(characterFont);
+		
 		
 		setupPanel();
 		setupListeners();
@@ -38,9 +42,6 @@ public class KanjiCharacterPanel extends JPanel
 	
 	private void setupPanel()
 	{
-		setBackground(Color.DARK_GRAY);
-		setLayout(layout);
-		
 		displayPanel.add(displayedCharacter);
 		
 		this.add(displayPanel);
@@ -56,5 +57,26 @@ public class KanjiCharacterPanel extends JPanel
 		
 	}
 	
+	private void getKanji(String character)
+	{
+		app.getKanjiURL(character);
+	}
+	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

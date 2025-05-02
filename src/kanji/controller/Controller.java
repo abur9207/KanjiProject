@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.URL;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 import kanji.model.Kanji;
@@ -94,19 +95,34 @@ public class Controller
 		connection.setRequestMethod("GET");
 		connection.connect();
 		
-		int responsecode = connection.getResponseCode();
+		int responseCode = connection.getResponseCode();
+		
+			if (responseCode != 200)
+			{
+			throw new RuntimeException("HttpResponseCode: " + responseCode);
+			}
+			else
+			{
+			String inline = "";
+			Scanner scanner = new Scanner(url.openStream());
+			
+				while (scanner.hasNext()) 
+				{
+				inline += scanner.nextLine();	
+				}
+			}
 		}
 		catch (IOException error)
 		{
 			handleError(error);
 		}
 		
-		//continue working here
 	}
+}
 	
 	
 
-}
+
 
 
 

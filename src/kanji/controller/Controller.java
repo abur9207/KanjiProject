@@ -16,12 +16,15 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 import kanji.model.Kanji;
+import kanji.model.KanjiInfo;
+import kanji.model.KanjiParser;
 import kanji.view.KanjiFrame;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
+@SuppressWarnings("unused")
 public class Controller
 {
 	private String KanjiURLBase;
@@ -35,7 +38,7 @@ public class Controller
 	public Controller()
 	{
 		this.KanjiURLBase = "https://kanjiapi.dev/v1/kanji/";
-		this.selectedKanji = "猫";
+		this.selectedKanji = "蛍";
 		KanjiInfo info = parser.parseKanjiJson(JsonApiReader(selectedKanji));
 		
 		this.window = new KanjiFrame(this);
@@ -155,170 +158,7 @@ public class Controller
 		System.out.println(inline);
 		return inline;
 	}
-	
-	
-	public class KanjiInfo 
-	{
-	    private int grade;
-	    private int jlpt;
-	    private String kanji;
-	    
-	    @JsonProperty("freq_mainichi_shinbun")
-	    private int frequency;
-
-	    @JsonProperty("kun_readings")
-	    private List<String> kunReadings;
-
-	    private List<String> meanings;
-
-	    @JsonProperty("name_readings")
-	    private List<String> nameReadings;
-
-	    private List<String> notes;
-
-	    @JsonProperty("on_readings")
-	    private List<String> onReadings;
-
-	    @JsonProperty("stroke_count")
-	    private int strokeCount;
-
-	    private String unicode;
-
-	    public int getFreqMainichiShinbun() 
-	    {
-	        return frequency;
-	    }
-
-	    public void setFreqMainichiShinbun(int freqMainichiShinbun) 
-	    {
-	        this.frequency = freqMainichiShinbun;
-	    }
-
-	    public int getGrade() 
-	    {
-	        return grade;
-	    }
-
-	    public void setGrade(int grade) 
-	    {
-	        this.grade = grade;
-	    }
-
-	    public int getJlpt() 
-	    {
-	        return jlpt;
-	    }
-
-	    public void setJlpt(int jlpt) 
-	    {
-	        this.jlpt = jlpt;
-	    }
-
-	    public String getKanji() 
-	    {
-	        return kanji;
-	    }
-
-	    public void setKanji(String kanji) 
-	    {
-	        this.kanji = kanji;
-	    }
-
-	    public List<String> getKunReadings() 
-	    {
-	        return kunReadings;
-	    }
-
-	    public void setKunReadings(List<String> kunReadings) 
-	    {
-	        this.kunReadings = kunReadings;
-	    }
-
-	    public List<String> getMeanings() 
-	    {
-	        return meanings;
-	    }
-
-	    public void setMeanings(List<String> meanings) 
-	    {
-	        this.meanings = meanings;
-	    }
-
-	    public List<String> getNameReadings() 
-	    {
-	        return nameReadings;
-	    }
-
-	    public void setNameReadings(List<String> nameReadings) 
-	    {
-	        this.nameReadings = nameReadings;
-	    }
-
-	    public List<String> getNotes() 
-	    {
-	        return notes;
-	    }
-
-	    public void setNotes(List<String> notes) 
-	    {
-	        this.notes = notes;
-	    }
-
-	    public List<String> getOnReadings() 
-	    {
-	        return onReadings;
-	    }
-
-	    public void setOnReadings(List<String> onReadings) 
-	    {
-	        this.onReadings = onReadings;
-	    }
-
-	    public int getStrokeCount() 
-	    {
-	        return strokeCount;
-	    }
-
-	    public void setStrokeCount(int strokeCount) 
-	    {
-	        this.strokeCount = strokeCount;
-	    }
-
-	    public String getUnicode() 
-	    {
-	        return unicode;
-	    }
-
-	    public void setUnicode(String unicode) 
-	    {
-	        this.unicode = unicode;
-	    }
-	}
-	
-	public class KanjiParser 
-	{
-
-	    public KanjiInfo parseKanjiJson(String jsonString) 
-	    {
-	        ObjectMapper mapper = new ObjectMapper();
-
-	        try 
-	        {
-	            // Convert the JSON string into a KanjiInfo object
-	            KanjiInfo info = mapper.readValue(jsonString, KanjiInfo.class);
-	            return info;
-
-	        } 
-	        catch (Exception error) 
-	        {
-	            handleError(error);
-	            return null;
-	        }
-	    }
-	}
-	
 }
-	
 	
 
 

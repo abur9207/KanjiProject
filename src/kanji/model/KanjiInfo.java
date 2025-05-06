@@ -6,12 +6,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class KanjiInfo
 {
-	 private int grade;
+	 	private int grade;
 	    private int jlpt;
 	    private String kanji;
 	    
 	    @JsonProperty("freq_mainichi_shinbun")
 	    private int frequency;
+	    
+	    @JsonProperty("heisig_en")
+	    private String heisigEn;
 
 	    @JsonProperty("kun_readings")
 	    private List<String> kunReadings;
@@ -50,6 +53,15 @@ public class KanjiInfo
 	    {
 	        this.grade = grade;
 	    }
+	    
+	    public String getHeisigEn() {
+	        return heisigEn;
+	    }
+
+	    public void setHeisigEn(String heisigEn) {
+	        this.heisigEn = heisigEn;
+	    }
+
 
 	    public int getJlpt() 
 	    {

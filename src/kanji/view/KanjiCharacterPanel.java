@@ -11,6 +11,8 @@ import javax.swing.SpringLayout;
 
 import kanji.controller.Controller;
 import kanji.model.Kanji;
+import kanji.model.KanjiInfo;
+import kanji.model.KanjiParser;
 
 public class KanjiCharacterPanel extends JPanel
 {
@@ -21,18 +23,24 @@ public class KanjiCharacterPanel extends JPanel
 	
 	private JPanel displayPanel;
 	
+	KanjiParser parser = new KanjiParser();
+	KanjiInfo info = parser.parseKanjiJson(jsonData);
 	
 	public KanjiCharacterPanel(Controller app)
 	{
 		super();
 		this.app = app;
 		
+		
+		
 		this.layout = new SpringLayout();
-		this.displayedCharacter = new JLabel("猫");
+		this.displayedCharacter = new JLabel(info.getKanji());
 		this.displayPanel = new JPanel(new GridLayout(1,0));
 		
 		Font characterFont = new Font("Ariel", Font.PLAIN, 300);
 		displayedCharacter.setFont(characterFont);
+		
+		String jsonData = app.JsonApiReader(app.selectedKanji);
 		
 		
 		setupPanel();
@@ -55,11 +63,6 @@ public class KanjiCharacterPanel extends JPanel
 	private void setupLayout()
 	{
 		
-	}
-	
-	private void getKanji(String character)
-	{
-		app.getKanjiURL(character);
 	}
 	
 

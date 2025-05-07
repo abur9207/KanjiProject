@@ -29,7 +29,7 @@ public class Controller
 {
 	private String KanjiURLBase;
 	
-	private String selectedKanji;
+	public String selectedKanji;
 	public Kanji currentKanji;
 	KanjiParser parser = new KanjiParser();
 	

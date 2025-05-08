@@ -24,7 +24,7 @@ public class KanjiCharacterPanel extends JPanel
 	private JPanel displayPanel;
 	
 	KanjiParser parser = new KanjiParser();
-	KanjiInfo info = parser.parseKanjiJson(jsonData);
+	
 	
 	public KanjiCharacterPanel(Controller app)
 	{
@@ -34,13 +34,15 @@ public class KanjiCharacterPanel extends JPanel
 		
 		
 		this.layout = new SpringLayout();
-		this.displayedCharacter = new JLabel(info.getKanji());
+		
 		this.displayPanel = new JPanel(new GridLayout(1,0));
+		
+		String jsonData = app.JsonApiReader(app.selectedKanji);
+		KanjiInfo info = parser.parseKanjiJson(jsonData);
+		this.displayedCharacter = new JLabel(info.getKanji());
 		
 		Font characterFont = new Font("Ariel", Font.PLAIN, 300);
 		displayedCharacter.setFont(characterFont);
-		
-		String jsonData = app.JsonApiReader(app.selectedKanji);
 		
 		
 		setupPanel();

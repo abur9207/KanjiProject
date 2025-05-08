@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
-@SuppressWarnings("unused")
+
 public class Controller
 {
 	private String KanjiURLBase;
@@ -38,7 +38,7 @@ public class Controller
 	public Controller()
 	{
 		this.KanjiURLBase = "https://kanjiapi.dev/v1/kanji/";
-		this.selectedKanji = "蛍";
+		this.selectedKanji = "蠍";
 		KanjiInfo info = parser.parseKanjiJson(JsonApiReader(selectedKanji));
 		
 		this.window = new KanjiFrame(this);

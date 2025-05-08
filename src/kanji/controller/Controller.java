@@ -29,7 +29,6 @@ public class Controller
 {
 	private String KanjiURLBase;
 	
-	public String selectedKanji;
 	public Kanji currentKanji;
 	KanjiParser parser = new KanjiParser();
 	
@@ -38,7 +37,6 @@ public class Controller
 	public Controller()
 	{
 		this.KanjiURLBase = "https://kanjiapi.dev/v1/kanji/";
-		this.selectedKanji = "蠍";
 		KanjiInfo info = parser.parseKanjiJson(JsonApiReader(selectedKanji));
 		
 		this.window = new KanjiFrame(this);
@@ -122,12 +120,12 @@ public class Controller
 		}
 	}
 	
-	public String JsonApiReader (String character)
+	public String JsonApiReader (String kanji)
 	{
 		String inline = "";
 		try
 		{
-		URL url = getKanjiURL(character);
+		URL url = getKanjiURL(kanji);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("GET");
 		connection.connect();

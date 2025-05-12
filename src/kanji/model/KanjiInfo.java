@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class KanjiInfo
 {
-	 	private int grade;
+	 	public int grade;
 	    private int jlpt;
-	    private String kanji;
+	    public String kanji;
 	    
 	    @JsonProperty("freq_mainichi_shinbun")
 	    private int frequency;
@@ -17,9 +17,9 @@ public class KanjiInfo
 	    private String heisigEn;
 
 	    @JsonProperty("kun_readings")
-	    private List<String> kunReadings;
+		public List<String> kunReadings;
 
-	    private List<String> meanings;
+	    public List<String> meanings;
 
 	    @JsonProperty("name_readings")
 	    private List<String> nameReadings;
@@ -27,10 +27,10 @@ public class KanjiInfo
 	    private List<String> notes;
 
 	    @JsonProperty("on_readings")
-	    private List<String> onReadings;
+		public List<String> onReadings;
 
 	    @JsonProperty("stroke_count")
-	    private int strokeCount;
+		public int strokeCount;
 
 	    private String unicode;
 

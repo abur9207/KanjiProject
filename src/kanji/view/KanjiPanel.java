@@ -22,9 +22,7 @@ public class KanjiPanel extends JPanel
 	{
 		super();
 		
-		this.app = app;
 		this.layout = new SpringLayout();
-		
 		this.inputPanel = new InputPanel(app);
 		this.charactersPanel = new KanjiCharacterPanel(app);
 		

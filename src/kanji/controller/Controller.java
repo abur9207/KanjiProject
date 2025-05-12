@@ -1,7 +1,8 @@
 package kanji.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -18,6 +19,7 @@ import javax.swing.JOptionPane;
 import kanji.model.Kanji;
 import kanji.model.KanjiInfo;
 import kanji.model.KanjiParser;
+import kanji.view.InputPanel;
 import kanji.view.KanjiFrame;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,8 +30,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Controller
 {
 	private String KanjiURLBase;
-	
+	public String selectedKanji;
 	public Kanji currentKanji;
+	private InputPanel inputPanel;
 	KanjiParser parser = new KanjiParser();
 	
 	private KanjiFrame window;
@@ -37,9 +40,15 @@ public class Controller
 	public Controller()
 	{
 		this.KanjiURLBase = "https://kanjiapi.dev/v1/kanji/";
+		this.inputPanel = inputPanel;
+		this.selectedKanji = "蛍";
+		
 		KanjiInfo info = parser.parseKanjiJson(JsonApiReader(selectedKanji));
 		
 		this.window = new KanjiFrame(this);
+		
+		
+		
 		
 		if (info != null) 
 		{
@@ -75,6 +84,7 @@ public class Controller
 		//testKanjiAPI();
 		//getKanjiURL("猫");
 		//JsonApiReader(encodeKanji("猫"));
+		
 	}
 	
 	public void testKanjiAPI()
@@ -156,6 +166,49 @@ public class Controller
 		System.out.println(inline);
 		return inline;
 	}
+	
+	public String getKanjiInfo(String kanji) 
+	{
+	    try {
+	        String apiUrl = "https://kanjiapi.dev/v1/kanji/" + URLEncoder.encode(kanji, "UTF-8");
+	        HttpURLConnection conn = (HttpURLConnection) new URL(apiUrl).openConnection();
+	        conn.setRequestMethod("GET");
+
+	        if (conn.getResponseCode() != 200) {
+	            return "Kanji not found.";
+	        }
+
+	        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	        StringBuilder response = new StringBuilder();
+	        String line;
+	        while ((line = in.readLine()) != null) {
+	            response.append(line);
+	        }
+	        in.close();
+
+	        // Parse using the parser
+	        KanjiParser parser = new KanjiParser();
+	        KanjiInfo info = parser.parseKanjiJson(response.toString());
+
+	        if (info == null) {
+	            return "Failed to parse Kanji info.";
+	        }
+
+	        return "<html>" +
+	               "Kanji: " + info.kanji + "<br>" +
+	               "Grade: " + info.grade + "<br>" +
+	               "Strokes: " + info.strokeCount + "<br>" +
+	               "Onyomi: " + String.join(", ", info.onReadings) + "<br>" +
+	               "Kunyomi: " + String.join(", ", info.kunReadings) + "<br>" +
+	               "Meanings: " + String.join(", ", info.meanings) +
+	               "</html>";
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "Error retrieving Kanji info.";
+	    }
+	}
+	
 }
 	
 

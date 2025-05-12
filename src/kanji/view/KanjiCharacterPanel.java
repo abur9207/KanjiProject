@@ -39,7 +39,7 @@ public class KanjiCharacterPanel extends JPanel
 		
 		//String jsonData = app.JsonApiReader(app.selectedKanji);
 		//KanjiInfo info = parser.parseKanjiJson(jsonData);
-		//this.displayedCharacter = new JLabel(info.getKanji());
+		this.displayedCharacter = new JLabel(app.selectedKanji);
 		
 		Font characterFont = new Font("Ariel", Font.PLAIN, 300);
 		displayedCharacter.setFont(characterFont);

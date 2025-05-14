@@ -20,6 +20,9 @@ public class KanjiCharacterPanel extends JPanel
 	private SpringLayout layout;
 	private JButton getKanjiButton;
 	private JLabel displayedCharacter;
+	private JLabel meaningLabel;
+    private JLabel onLabel;
+    private JLabel kunLabel;
 	
 	private JPanel displayPanel;
 	
@@ -40,8 +43,11 @@ public class KanjiCharacterPanel extends JPanel
 		//String jsonData = app.JsonApiReader(app.selectedKanji);
 		//KanjiInfo info = parser.parseKanjiJson(jsonData);
 		this.displayedCharacter = new JLabel(app.selectedKanji);
+		this.meaningLabel = new JLabel("meanings: ");
+    	this.onLabel = new JLabel("onyomi readings: ");
+    	this.kunLabel = new JLabel("kunyomi readings: ");
 		
-		Font characterFont = new Font("Ariel", Font.PLAIN, 300);
+		Font characterFont = new Font("Ariel", Font.PLAIN, 30);
 		displayedCharacter.setFont(characterFont);
 		
 		
@@ -55,6 +61,9 @@ public class KanjiCharacterPanel extends JPanel
 		displayPanel.add(displayedCharacter);
 		
 		this.add(displayPanel);
+		this.add(meaningLabel);
+    	this.add(onLabel);
+    	this.add(kunLabel);
 	}
 	
 	private void setupListeners()
@@ -65,6 +74,22 @@ public class KanjiCharacterPanel extends JPanel
 	private void setupLayout()
 	{
 		
+	}
+	
+	public void updateDisplay(KanjiInfo info)
+	{
+		if (info == null)
+		{
+			 displayedCharacter.setText("No data found.");
+		     meaningLabel.setText("");
+		     onLabel.setText("");
+		     kunLabel.setText("");
+		}
+		
+		displayedCharacter.setText("Kanji: " + info.getKanji());
+	    meaningLabel.setText("Meaning: " + info.getMeanings());
+	    onLabel.setText("On'yomi: " + String.join(", ", info.getOnReadings()));
+	    kunLabel.setText("Kun'yomi: " + String.join(", ", info.getKunReadings()));
 	}
 	
 

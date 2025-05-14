@@ -167,50 +167,40 @@ public class Controller
 		return inline;
 	}
 	
-	public String getKanjiInfo(String kanji) 
-	{
-	    try {
-	        String apiUrl = "https://kanjiapi.dev/v1/kanji/" + URLEncoder.encode(kanji, "UTF-8");
-	        HttpURLConnection conn = (HttpURLConnection) new URL(apiUrl).openConnection();
-	        conn.setRequestMethod("GET");
+	public KanjiInfo getKanjiInfo(String kanji) {
+        try {
+            // 1. Build the API URL
+            String apiUrl = KanjiURLBase + encodeKanji(kanji);
 
-	        if (conn.getResponseCode() != 200) {
-	            return "Kanji not found.";
-	        }
+            // 2. Set up the connection
+            HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept", "application/json");
 
-	        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-	        StringBuilder response = new StringBuilder();
-	        String line;
-	        while ((line = in.readLine()) != null) {
-	            response.append(line);
-	        }
-	        in.close();
+            // 3. Read the response
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream())
+            );
+            StringBuilder responseBuilder = new StringBuilder();
+            String line;
 
-	        // Parse using the parser
-	        KanjiParser parser = new KanjiParser();
-	        KanjiInfo info = parser.parseKanjiJson(response.toString());
+            while ((line = reader.readLine()) != null) {
+                responseBuilder.append(line);
+            }
 
-	        if (info == null) {
-	            return "Failed to parse Kanji info.";
-	        }
+            reader.close();
+            connection.disconnect();
 
-	        return "<html>" +
-	               "Kanji: " + info.kanji + "<br>" +
-	               "Grade: " + info.grade + "<br>" +
-	               "Strokes: " + info.strokeCount + "<br>" +
-	               "Onyomi: " + String.join(", ", info.onReadings) + "<br>" +
-	               "Kunyomi: " + String.join(", ", info.kunReadings) + "<br>" +
-	               "Meanings: " + String.join(", ", info.meanings) +
-	               "</html>";
+            // 4. Parse the JSON into a KanjiInfo object
+            String json = responseBuilder.toString();
+            return parser.parseKanjiJson(json);
 
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return "Error retrieving Kanji info.";
-	    }
-	}
-	
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null; // Return null if something went wrong
+        }
+    }
 }
-	
 
 
 

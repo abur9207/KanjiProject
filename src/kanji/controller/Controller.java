@@ -120,8 +120,16 @@ public class Controller
 		return inline;
 	}
 	
-	public KanjiInfo getKanjiInfo(String kanji) {
-        try {
+	public KanjiInfo getKanjiInfo(String kanji) 
+	{
+		if (kanji == null || kanji.trim().isEmpty()) 
+		{
+	        System.out.println("No kanji provided for API call.");
+	        return null;
+	    }
+		
+        try 
+        {
             // 1. Build the API URL
             String apiUrl = KanjiURLBase + encodeKanji(kanji);
 

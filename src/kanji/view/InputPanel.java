@@ -31,11 +31,13 @@ public class InputPanel extends JPanel
     private JButton downloadPDFButton;
     private Controller app;
     private JPanel inputBar;
+    private KanjiCharacterPanel charactersPanel;
     
     public InputPanel(Controller app, KanjiCharacterPanel charactersPanel)
     {
     	super();
     	this.app = app;
+    	this.charactersPanel = charactersPanel;
     	
     	this.inputBar = new JPanel();
     	this.inputField = new JTextField(10);
@@ -60,23 +62,24 @@ public class InputPanel extends JPanel
 	
 	private void setupListeners()
 	{
-		String enteredKanji = inputField.getText().trim();
-		KanjiInfo info = app.getKanjiInfo(enteredKanji);
+		
 
 		searchButton.addActionListener(new ActionListener()
 		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				
-				if (!enteredKanji.isEmpty())
-				{
-					app.getCharactersPanel().updateDisplay(info);
-				}
-			}
-		}); 
+		    @Override
+		    public void actionPerformed(ActionEvent e)
+		    {
+		        String enteredKanji = inputField.getText().trim();
+		        if (!enteredKanji.isEmpty()) {
+		            KanjiInfo info = app.getKanjiInfo(enteredKanji);
+		            charactersPanel.updateDisplay(info);
+		        }
+		    }
+		});
 		
 		downloadPDFButton.addActionListener(e -> {
+			String enteredKanji = inputField.getText().trim();
+			KanjiInfo info = app.getKanjiInfo(enteredKanji);
 		    if (info == null) 
 		    {
 		        JOptionPane.showMessageDialog(this, "No kanji selected.", "Error", JOptionPane.ERROR_MESSAGE);

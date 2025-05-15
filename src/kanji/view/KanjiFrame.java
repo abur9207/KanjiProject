@@ -11,6 +11,7 @@ public class KanjiFrame extends JFrame
 		super();
 
 		setContentPane(new KanjiPanel(app));
+		
 		setTitle("Kanji Project");
 		//setSize(1200, 900);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -19,5 +20,10 @@ public class KanjiFrame extends JFrame
 		setResizable(false);
 		setVisible(true);
 		
+	}
+	
+	public KanjiCharacterPanel getCharactersPanel() 
+	{
+	    return ((KanjiPanel) getContentPane()).getCharactersPanel();
 	}
 }

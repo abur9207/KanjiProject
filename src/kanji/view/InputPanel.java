@@ -26,25 +26,19 @@ public class InputPanel extends JPanel
 	private JTextField inputField;
     private JButton searchButton;
     private Controller app;
-    private KanjiCharacterPanel charactersPanel;
     private JPanel inputBar;
     
     public InputPanel(Controller app, KanjiCharacterPanel charactersPanel)
     {
     	super();
     	this.app = app;
-    	this.charactersPanel = charactersPanel;
     	
     	this.inputBar = new JPanel();
     	this.inputField = new JTextField(10);
     	this.searchButton = new JButton("Search");
     	
-    
-    	
-    	
-    	
-    	setupPanel();
     	setupLayout();
+    	setupPanel();
     	setupListeners();
     }
     
@@ -55,7 +49,7 @@ public class InputPanel extends JPanel
     	inputBar.add(inputField);
     	inputBar.add(searchButton);
     	
-    	this.add(inputBar, BorderLayout.NORTH);
+    	this.add(inputBar, BorderLayout.CENTER);
     	
    
 	}
@@ -73,7 +67,7 @@ public class InputPanel extends JPanel
 
 				if (!enteredKanji.isEmpty())
 				{
-					charactersPanel.updateDisplay(info);
+					app.getCharactersPanel().updateDisplay(info);
 				}
 			}
 		}); 
@@ -82,7 +76,8 @@ public class InputPanel extends JPanel
 	private void setupLayout()
 	{
 		setLayout(new BorderLayout());
-		inputBar.setLayout(new FlowLayout(FlowLayout.LEFT,10,10));
+		inputBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+		setPreferredSize(new Dimension(600,60));
 	}
 	
 	

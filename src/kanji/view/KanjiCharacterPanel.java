@@ -77,6 +77,7 @@ public class KanjiCharacterPanel extends JPanel
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		setAlignmentX(LEFT_ALIGNMENT);
+		setPreferredSize(new Dimension(600, 300));
 	}
 	
 	public void updateDisplay(KanjiInfo info)
@@ -89,11 +90,13 @@ public class KanjiCharacterPanel extends JPanel
 		     kunLabel.setText("");
 		}
 		
-		kanjiLabel.setText("Kanji: " + info.getKanji());
+		kanjiLabel.setText(info.getKanji());
 	    meaningLabel.setText("Meaning: " + info.getMeanings());
 	    onLabel.setText("On'yomi: " + String.join(", ", info.getOnReadings()));
 	    kunLabel.setText("Kun'yomi: " + String.join(", ", info.getKunReadings()));
 	}
+	
+	
 	
 
 }

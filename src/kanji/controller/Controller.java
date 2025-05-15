@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import kanji.model.Kanji;
 import kanji.model.KanjiInfo;
 import kanji.model.KanjiParser;
+import kanji.view.KanjiCharacterPanel;
 import kanji.view.KanjiFrame;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -177,6 +178,11 @@ public class Controller
             return null; // Return null if something went wrong
         }
     }
+	
+	public KanjiCharacterPanel getCharactersPanel() 
+	{
+	    return window.getCharactersPanel();
+	}
 }
 
 

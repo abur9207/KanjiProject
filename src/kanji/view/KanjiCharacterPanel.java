@@ -1,32 +1,28 @@
 package kanji.view;
 
-import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SpringLayout;
 
 import kanji.controller.Controller;
-import kanji.model.Kanji;
 import kanji.model.KanjiInfo;
 import kanji.model.KanjiParser;
 
 public class KanjiCharacterPanel extends JPanel
 {
-	private Controller app;
 	private JLabel kanjiLabel;
 	private JLabel meaningLabel;
     private JLabel onLabel;
     private JLabel kunLabel;
 	
-	private JPanel displayPanel;
+    private JPanel ContentPanel;
 	
 	KanjiParser parser = new KanjiParser();
 	
@@ -34,49 +30,45 @@ public class KanjiCharacterPanel extends JPanel
 	public KanjiCharacterPanel(Controller app)
 	{
 		super();
-		this.app = app;
-
-		this.displayPanel = new JPanel(new GridLayout(1,0));
 		
-		//String jsonData = app.JsonApiReader(app.selectedKanji);
-		//KanjiInfo info = parser.parseKanjiJson(jsonData);
-		this.kanjiLabel = new JLabel(app.selectedKanji);
-		this.meaningLabel = new JLabel("meanings: ");
-    	this.onLabel = new JLabel("onyomi readings: ");
-    	this.kunLabel = new JLabel("kunyomi readings: ");
+		this.ContentPanel = new JPanel();
+		this.kanjiLabel = new JLabel("");
+		this.meaningLabel = new JLabel("Enter the Kanji you want to search");
+    	this.onLabel = new JLabel("");
+    	this.kunLabel = new JLabel("");
 		
-		Font characterFont = new Font("Serif", Font.PLAIN, 48);
+		Font characterFont = new Font("Serif", Font.PLAIN, 72);
 		kanjiLabel.setFont(characterFont);
 		
-		
 		setupPanel();
-		setupListeners();
 		setupLayout();
 	}
 	
 	private void setupPanel()
 	{
-		this.setPreferredSize(new Dimension(600, 400));
+		ContentPanel.setLayout(new BoxLayout(ContentPanel, BoxLayout.Y_AXIS));
+		ContentPanel.setOpaque(false);
 		
-		this.add(kanjiLabel);
-		this.add(Box.createVerticalStrut(10));
-		this.add(meaningLabel);
-		this.add(Box.createVerticalStrut(5));
-    	this.add(onLabel);
-    	this.add(Box.createVerticalStrut(5));
-    	this.add(kunLabel);
-	}
-	
-	private void setupListeners()
-	{
+		kanjiLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		meaningLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		onLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		kunLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
+		ContentPanel.add(kanjiLabel);
+		ContentPanel.add(Box.createVerticalStrut(10));
+		ContentPanel.add(meaningLabel);
+		ContentPanel.add(Box.createVerticalStrut(5));
+		ContentPanel.add(onLabel);
+		ContentPanel.add(Box.createVerticalStrut(5));
+		ContentPanel.add(kunLabel);
+    	
+    	this.add(ContentPanel);
 	}
 	
 	private void setupLayout()
 	{
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		setLayout(new GridBagLayout());
 		setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-		setAlignmentX(LEFT_ALIGNMENT);
 		setPreferredSize(new Dimension(600, 300));
 	}
 	
@@ -84,8 +76,8 @@ public class KanjiCharacterPanel extends JPanel
 	{
 		if (info == null)
 		{
-			 kanjiLabel.setText("No data found.");
-		     meaningLabel.setText("");
+			 kanjiLabel.setText("");
+		     meaningLabel.setText("No kanji found. Try again");
 		     onLabel.setText("");
 		     kunLabel.setText("");
 		}
@@ -95,24 +87,4 @@ public class KanjiCharacterPanel extends JPanel
 	    onLabel.setText("On'yomi: " + String.join(", ", info.getOnReadings()));
 	    kunLabel.setText("Kun'yomi: " + String.join(", ", info.getKunReadings()));
 	}
-	
-	
-	
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

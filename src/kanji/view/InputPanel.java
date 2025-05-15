@@ -62,7 +62,6 @@ public class InputPanel extends JPanel
 			public void actionPerformed(ActionEvent e)
 			{
 				String enteredKanji = inputField.getText().trim();
-				app.selectedKanji = enteredKanji;
 				KanjiInfo info = app.getKanjiInfo(enteredKanji);
 
 				if (!enteredKanji.isEmpty())
@@ -76,7 +75,7 @@ public class InputPanel extends JPanel
 	private void setupLayout()
 	{
 		setLayout(new BorderLayout());
-		inputBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+		inputBar.setLayout(new FlowLayout(FlowLayout.CENTER));
 		setPreferredSize(new Dimension(600,60));
 	}
 	

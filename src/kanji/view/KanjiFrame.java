@@ -12,7 +12,7 @@ public class KanjiFrame extends JFrame
 
 		setContentPane(new KanjiPanel(app));
 		
-		setTitle("Kanji Project");
+		setTitle("Kanji Dictionary");
 		//setSize(1200, 900);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		pack();

@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Controller
 {
 	private String KanjiURLBase;
-	public String selectedKanji;
+
 	public Kanji currentKanji;
 	KanjiParser parser = new KanjiParser();
 	
@@ -34,22 +34,7 @@ public class Controller
 	public Controller()
 	{
 		this.KanjiURLBase = "https://kanjiapi.dev/v1/kanji/";
-		this.selectedKanji = "蛍";
-		
-		KanjiInfo info = parser.parseKanjiJson(JsonApiReader(selectedKanji));
-		
 		this.window = new KanjiFrame(this);
-		
-		if (info != null) 
-		{
-            System.out.println("Kanji: " + info.getKanji());
-            System.out.println("Meanings: " + info.getMeanings());
-            System.out.println("Kunyomi: " + info.getKunReadings());
-            System.out.println("Onyomi: " + info.getOnReadings());
-        } else 
-        {
-            System.out.println("Failed to parse JSON.");
-        }
 	}
 	
 	public void handleError(Exception error)
@@ -57,7 +42,6 @@ public class Controller
 		JOptionPane.showMessageDialog(window, error.getMessage(), "there was an error :/", JOptionPane.ERROR_MESSAGE);
 	}
 
-	
 	public void start()
 	{
 		//testKanjiAPI();
@@ -65,19 +49,9 @@ public class Controller
 		//JsonApiReader(encodeKanji("猫"));
 	}
 	
-	public void testKanjiAPI()
-	{
-		Kanji demoKanji = new Kanji("person", "N5", null, null, null);
-		
-		String result = "toString:\n" + demoKanji.toString();
-		System.out.println(result);
-	}
-	
 	public URL getKanjiURL (String character)
 	{
 		URL kanjiURL = null;
-		
-		String kanjiName = "";
 		
 		try
 		{
@@ -90,13 +64,10 @@ public class Controller
 		System.out.println(kanjiURL);
 		
 		return kanjiURL;
-		
 	}
 	
 	public String encodeKanji(String kanji)
 	{
-		kanji = selectedKanji;
-		
 		try
 		{
 			return URLEncoder.encode(kanji, StandardCharsets.UTF_8.toString());
@@ -162,7 +133,8 @@ public class Controller
             StringBuilder responseBuilder = new StringBuilder();
             String line;
 
-            while ((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null) 
+            {
                 responseBuilder.append(line);
             }
 
@@ -172,8 +144,9 @@ public class Controller
             // 4. Parse the JSON into a KanjiInfo object
             String json = responseBuilder.toString();
             return parser.parseKanjiJson(json);
-
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             e.printStackTrace();
             return null; // Return null if something went wrong
         }
@@ -184,35 +157,3 @@ public class Controller
 	    return window.getCharactersPanel();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

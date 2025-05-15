@@ -33,7 +33,7 @@ public class KanjiPanel extends JPanel
 	{
 		setBackground(Color.LIGHT_GRAY);
 		
-		this.add(inputPanel, BorderLayout.NORTH);
+		this.add(inputPanel, BorderLayout.SOUTH);
 		this.add(charactersPanel, BorderLayout.CENTER);
 	}
 	

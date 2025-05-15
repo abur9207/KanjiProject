@@ -6,14 +6,17 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import kanji.controller.Controller;
 import kanji.model.KanjiInfo;
@@ -57,14 +60,15 @@ public class InputPanel extends JPanel
 	
 	private void setupListeners()
 	{
+		String enteredKanji = inputField.getText().trim();
+		KanjiInfo info = app.getKanjiInfo(enteredKanji);
+
 		searchButton.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				String enteredKanji = inputField.getText().trim();
-				KanjiInfo info = app.getKanjiInfo(enteredKanji);
-
+				
 				if (!enteredKanji.isEmpty())
 				{
 					app.getCharactersPanel().updateDisplay(info);
@@ -72,20 +76,33 @@ public class InputPanel extends JPanel
 			}
 		}); 
 		
-		downloadPDFButton.addActionListener(new ActionListener() {
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		        KanjiInfo info = app.getKanjiInfo(inputField.getText().trim());
-		        if (info != null) {
-		            try {
-		                PDFExporter.exportKanjiToPDF(info);
-		                JOptionPane.showMessageDialog(null, "PDF saved successfully.");
-		            } catch (Exception ex) {
-		                ex.printStackTrace();
-		                JOptionPane.showMessageDialog(null, "Failed to save PDF: " + ex.getMessage());
-		            }
-		        } else {
-		            JOptionPane.showMessageDialog(null, "No kanji information to export.");
+		downloadPDFButton.addActionListener(e -> {
+		    if (info == null) 
+		    {
+		        JOptionPane.showMessageDialog(this, "No kanji selected.", "Error", JOptionPane.ERROR_MESSAGE);
+		        return;
+		    }
+
+		    JFileChooser fileChooser = new JFileChooser();
+		    fileChooser.setDialogTitle("Save Kanji PDF");
+		    fileChooser.setFileFilter(new FileNameExtensionFilter("PDF Documents", "pdf"));
+
+		    int userSelection = fileChooser.showSaveDialog(this);
+
+		    if (userSelection == JFileChooser.APPROVE_OPTION) {
+		        File fileToSave = fileChooser.getSelectedFile();
+
+		        // Ensure it ends in ".pdf"
+		        if (!fileToSave.getName().toLowerCase().endsWith(".pdf")) {
+		            fileToSave = new File(fileToSave.getParentFile(), fileToSave.getName() + ".pdf");
+		        }
+
+		        try {
+		            exportKanjiInfoToPDF(info, fileToSave.getAbsolutePath());
+		            JOptionPane.showMessageDialog(this, "PDF saved successfully.");
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		            JOptionPane.showMessageDialog(this, "Failed to save PDF.", "Error", JOptionPane.ERROR_MESSAGE);
 		        }
 		    }
 		});

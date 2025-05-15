@@ -2,6 +2,7 @@ package kanji.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -13,17 +14,20 @@ import kanji.controller.Controller;
 public class KanjiPanel extends JPanel
 {
 	private Controller app;
-	private SpringLayout layout;
+	private BorderLayout layout;
 	
 	private InputPanel inputPanel;
-	
+	private KanjiCharacterPanel charactersPanel;
 	
 	public KanjiPanel(Controller app)
 	{
 		super();
+		this.app = app;
 		
-		this.layout = new SpringLayout();
-		this.inputPanel = new InputPanel(app);
+		this.layout = new BorderLayout();
+		this.charactersPanel = new KanjiCharacterPanel(app);
+		this.inputPanel = new InputPanel(app, charactersPanel);
+		
 		
 		
 		setupPanel();
@@ -35,8 +39,8 @@ public class KanjiPanel extends JPanel
 	{
 		setBackground(Color.LIGHT_GRAY);
 		
-		
 		this.add(inputPanel, BorderLayout.NORTH);
+		this.add(charactersPanel, BorderLayout.CENTER);
 	}
 	
 	private void setupListeners()
@@ -46,6 +50,6 @@ public class KanjiPanel extends JPanel
 	
 	private void setupLayout()
 	{
-		
+		this.setLayout(layout);
 	}
 }

@@ -1,6 +1,8 @@
 package kanji.view;
 
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -20,22 +22,25 @@ import kanji.model.KanjiParser;
 
 public class InputPanel extends JPanel
 {
-	private SpringLayout layout;
+	
 	private JTextField inputField;
     private JButton searchButton;
     private Controller app;
-    
     private KanjiCharacterPanel charactersPanel;
+    private JPanel inputBar;
     
-    public InputPanel(Controller app)
+    public InputPanel(Controller app, KanjiCharacterPanel charactersPanel)
     {
     	super();
     	this.app = app;
-    	this.charactersPanel = new KanjiCharacterPanel(app);
+    	this.charactersPanel = charactersPanel;
     	
-    	this.layout = new SpringLayout();
+    	this.inputBar = new JPanel();
     	this.inputField = new JTextField(10);
     	this.searchButton = new JButton("Search");
+    	
+    
+    	
     	
     	
     	setupPanel();
@@ -45,12 +50,14 @@ public class InputPanel extends JPanel
     
     private void setupPanel()
 	{
-    	this.add(charactersPanel);
+    	this.setPreferredSize(new Dimension(600, 50));
     	
-    	this.add(new JLabel("Enter Kanji"));
-    	this.add(inputField);
-    	this.add(searchButton);
+    	inputBar.add(inputField);
+    	inputBar.add(searchButton);
     	
+    	this.add(inputBar, BorderLayout.NORTH);
+    	
+   
 	}
 	
 	private void setupListeners()
@@ -63,25 +70,19 @@ public class InputPanel extends JPanel
 				String enteredKanji = inputField.getText().trim();
 				app.selectedKanji = enteredKanji;
 				KanjiInfo info = app.getKanjiInfo(enteredKanji);
-				
-				
+
 				if (!enteredKanji.isEmpty())
 				{
-					
 					charactersPanel.updateDisplay(info);
 				}
-				
-				System.out.println(app.selectedKanji);
 			}
 		}); 
 	}
 	
 	private void setupLayout()
 	{
-		layout.putConstraint(SpringLayout.NORTH, charactersPanel, 0, SpringLayout.SOUTH, this);
-		layout.putConstraint(SpringLayout.EAST, charactersPanel, 0, SpringLayout.EAST, this);
-		layout.putConstraint(SpringLayout.SOUTH, charactersPanel, 0, SpringLayout.SOUTH, this);
-		layout.putConstraint(SpringLayout.WEST,  charactersPanel,  0, SpringLayout.WEST, this);
+		setLayout(new BorderLayout());
+		inputBar.setLayout(new FlowLayout(FlowLayout.LEFT,10,10));
 	}
 	
 	

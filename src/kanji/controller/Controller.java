@@ -8,31 +8,24 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
-
 import java.nio.charset.StandardCharsets;
-
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.List;
 
 import javax.swing.JOptionPane;
+
 import kanji.model.Kanji;
 import kanji.model.KanjiInfo;
 import kanji.model.KanjiParser;
-import kanji.view.InputPanel;
 import kanji.view.KanjiFrame;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-
 
 public class Controller
 {
 	private String KanjiURLBase;
 	public String selectedKanji;
 	public Kanji currentKanji;
-	private InputPanel inputPanel;
 	KanjiParser parser = new KanjiParser();
 	
 	private KanjiFrame window;
@@ -40,15 +33,11 @@ public class Controller
 	public Controller()
 	{
 		this.KanjiURLBase = "https://kanjiapi.dev/v1/kanji/";
-		this.inputPanel = inputPanel;
 		this.selectedKanji = "蛍";
 		
 		KanjiInfo info = parser.parseKanjiJson(JsonApiReader(selectedKanji));
 		
 		this.window = new KanjiFrame(this);
-		
-		
-		
 		
 		if (info != null) 
 		{
@@ -67,24 +56,12 @@ public class Controller
 		JOptionPane.showMessageDialog(window, error.getMessage(), "there was an error :/", JOptionPane.ERROR_MESSAGE);
 	}
 
-	public void save(String content, String filePath)
-	{
-		IOController.writeTextForFile(this, content, filePath);
-	}
-	
-	public String load(String pathToFile)
-	{
-		String data = IOController.readTextFromFile(this, pathToFile);
-		
-		return data;
-	}
 	
 	public void start()
 	{
 		//testKanjiAPI();
 		//getKanjiURL("猫");
 		//JsonApiReader(encodeKanji("猫"));
-		
 	}
 	
 	public void testKanjiAPI()
@@ -140,7 +117,7 @@ public class Controller
 		connection.setRequestMethod("GET");
 		connection.connect();
 		
-//getting response code
+		//getting response code
 		int responseCode = connection.getResponseCode();
 		
 			if (responseCode != 200)
@@ -151,7 +128,7 @@ public class Controller
 			{
 			Scanner scanner = new Scanner(connection.getInputStream());
 			
-//using scanner to write all the JSON data into a string
+				//using scanner to write all the JSON data into a string
 				while (scanner.hasNext()) 
 				{
 				inline += scanner.nextLine();	

@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="jackson-annotations-2.18.3.jar"/>
 	<classpathentry kind="lib" path="jackson-core-2.18.3.jar"/>
 	<classpathentry kind="lib" path="jackson-databind-2.18.3.jar"/>
+	<classpathentry kind="lib" path="itextpdf-5.5.13.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

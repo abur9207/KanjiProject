@@ -5,8 +5,6 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import kanji.model.KanjiInfo;
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 

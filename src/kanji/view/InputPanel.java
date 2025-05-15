@@ -93,14 +93,18 @@ public class InputPanel extends JPanel
 		        File fileToSave = fileChooser.getSelectedFile();
 
 		        // Ensure it ends in ".pdf"
-		        if (!fileToSave.getName().toLowerCase().endsWith(".pdf")) {
+		        if (!fileToSave.getName().toLowerCase().endsWith(".pdf")) 
+		        {
 		            fileToSave = new File(fileToSave.getParentFile(), fileToSave.getName() + ".pdf");
 		        }
 
-		        try {
-		            exportKanjiInfoToPDF(info, fileToSave.getAbsolutePath());
+		        try 
+		        {
+		            app.exportKanjiInfoToPDF(info, fileToSave.getAbsolutePath());
 		            JOptionPane.showMessageDialog(this, "PDF saved successfully.");
-		        } catch (Exception ex) {
+		        } 
+		        catch (Exception ex) 
+		        {
 		            ex.printStackTrace();
 		            JOptionPane.showMessageDialog(this, "Failed to save PDF.", "Error", JOptionPane.ERROR_MESSAGE);
 		        }

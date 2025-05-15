@@ -1,6 +1,7 @@
 package kanji.controller;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -21,6 +22,9 @@ import kanji.view.KanjiFrame;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
 public class Controller
 {
@@ -155,5 +159,19 @@ public class Controller
 	public KanjiCharacterPanel getCharactersPanel() 
 	{
 	    return window.getCharactersPanel();
+	}
+	
+	public void exportKanjiInfoToPDF(KanjiInfo info, String filePath) throws Exception 
+	{
+	    Document document = new Document();
+	    PdfWriter.getInstance(document, new FileOutputStream(filePath));
+	    document.open();
+
+	    document.add(new Paragraph("Kanji: " + info.getKanji()));
+	    document.add(new Paragraph("Meaning: " + info.getMeanings()));
+	    document.add(new Paragraph("On'yomi: " + String.join(", ", info.getOnReadings())));
+	    document.add(new Paragraph("Kun'yomi: " + String.join(", ", info.getKunReadings())));
+
+	    document.close();
 	}
 }

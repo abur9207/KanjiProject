@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class KanjiParser
 {
-
     public KanjiInfo parseKanjiJson(String jsonString) 
     {
         ObjectMapper mapper = new ObjectMapper();

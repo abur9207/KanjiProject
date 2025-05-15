@@ -23,10 +23,7 @@ public class KanjiPanel extends JPanel
 		this.charactersPanel = new KanjiCharacterPanel(app);
 		this.inputPanel = new InputPanel(app, charactersPanel);
 		
-		
-		
 		setupPanel();
-		setupListeners();
 	}
 	
 	private void setupPanel()
@@ -37,12 +34,8 @@ public class KanjiPanel extends JPanel
 		this.add(charactersPanel, BorderLayout.CENTER);
 	}
 	
-	private void setupListeners()
+	public KanjiCharacterPanel getCharactersPanel() 
 	{
-		
-	}
-	
-	public KanjiCharacterPanel getCharactersPanel() {
 	    return charactersPanel;
 	}
 }

@@ -2,8 +2,10 @@ package kanji.controller;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -23,10 +25,13 @@ import kanji.view.KanjiFrame;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfDocument;
@@ -175,43 +180,50 @@ public class Controller
 	    return window.getCharactersPanel();
 	}
 	
-	public void exportKanjiToPDF(KanjiInfo info, File saveFile) 
-	{
-	    Document document = new Document();
-
+	public void exportKanjiToPDF(KanjiInfo info, File saveFile) {
 	    try {
-	        PdfWriter.getInstance(document, new FileOutputStream(saveFile));
+	        // Load font from resources
+	        InputStream fontStream = getClass().getResourceAsStream("/NotoSansJP-VariableFont_wght.ttf");
+	        byte[] fontBytes = fontStream.readAllBytes();
+	        BaseFont baseFont = BaseFont.createFont("NotoSansJP.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, true, fontBytes, null);
+
+	        Font kanjiFont = new Font(baseFont, 100);
+	        Font labelFont = new Font(baseFont, 18, Font.BOLD);
+	        Font textFont = new Font(baseFont, 16);
+
+	        Document document = new Document(PageSize.A6, 20, 20, 20, 20);
+	        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(saveFile));
 	        document.open();
 
-	        // Set a font that supports Japanese characters (you can use a system or bundled font)
-	        Font kanjiFont = FontFactory.getFont(FontFactory.HELVETICA, BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 60);
-	        Font labelFont = FontFactory.getFont(FontFactory.HELVETICA, 14);
+	        // -------- FRONT (Kanji only) --------
+	        Paragraph kanji = new Paragraph(info.getKanji(), kanjiFont);
+	        kanji.setAlignment(Element.ALIGN_CENTER);
+	        document.add(kanji);
 
-	        // Kanji character
-	        Paragraph kanjiPara = new Paragraph(info.getKanji(), kanjiFont);
-	        kanjiPara.setAlignment(Paragraph.ALIGN_CENTER);
-	        document.add(kanjiPara);
+	        document.newPage();
 
-	        // Meanings
-	        Paragraph meanings = new Paragraph("Meanings: " + String.join(", ", info.getMeanings()), labelFont);
+	        // -------- BACK (Readings + Meanings) --------
+	        Paragraph onLabel = new Paragraph("On’yomi:", labelFont);
+	        Paragraph onReading = new Paragraph(String.join(", ", info.getOnReadings()), textFont);
+	        Paragraph kunLabel = new Paragraph("Kun’yomi:", labelFont);
+	        Paragraph kunReading = new Paragraph(String.join(", ", info.getKunReadings()), textFont);
+	        Paragraph meaningLabel = new Paragraph("Meaning(s):", labelFont);
+	        Paragraph meanings = new Paragraph(info.getMeanings().toString(), textFont);
+
+	        // Layout back with spacing
+	        document.add(meaningLabel);
 	        document.add(meanings);
+	        document.add(Chunk.NEWLINE);
+	        document.add(onLabel);
+	        document.add(onReading);
+	        document.add(Chunk.NEWLINE);
+	        document.add(kunLabel);
+	        document.add(kunReading);
 
-	        // On'yomi
-	        Paragraph onyomi = new Paragraph("On'yomi: " + String.join(", ", info.getOnReadings()), labelFont);
-	        document.add(onyomi);
-
-	        // Kun'yomi
-	        Paragraph kunyomi = new Paragraph("Kun'yomi: " + String.join(", ", info.getKunReadings()), labelFont);
-	        document.add(kunyomi);
-
-	    } 
-	    catch (DocumentException | IOException e) 
-	    {
-	        e.printStackTrace();
-	    } 
-	    finally 
-	    {
 	        document.close();
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
 	    }
 	}
 }

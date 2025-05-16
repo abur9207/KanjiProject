@@ -103,7 +103,7 @@ public class InputPanel extends JPanel
 
 		        try 
 		        {
-		            app.exportKanjiInfoToPDF(info, fileToSave.getAbsolutePath());
+		            app.exportKanjiToPDF(info, fileToSave.getAbsolutePath());
 		            JOptionPane.showMessageDialog(this, "PDF saved successfully.");
 		        } 
 		        catch (Exception ex) 

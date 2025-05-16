@@ -23,6 +23,8 @@ public class KanjiCharacterPanel extends JPanel
     private JLabel kunLabel;
 	
     private JPanel ContentPanel;
+    
+    private KanjiInfo currentInfo;
 	
 	KanjiParser parser = new KanjiParser();
 	
@@ -86,5 +88,10 @@ public class KanjiCharacterPanel extends JPanel
 	    meaningLabel.setText("Meaning: " + info.getMeanings());
 	    onLabel.setText("On'yomi: " + String.join(", ", info.getOnReadings()));
 	    kunLabel.setText("Kun'yomi: " + String.join(", ", info.getKunReadings()));
+	}
+	
+	public KanjiInfo getCurrentKanjiInfo() 
+	{
+	    return currentInfo;
 	}
 }

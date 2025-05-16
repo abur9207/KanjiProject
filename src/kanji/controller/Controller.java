@@ -1,6 +1,7 @@
 package kanji.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,7 +24,12 @@ import kanji.view.KanjiFrame;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfDocument;
 import com.itextpdf.text.pdf.PdfWriter;
 
 public class Controller
@@ -169,17 +175,43 @@ public class Controller
 	    return window.getCharactersPanel();
 	}
 	
-	public void exportKanjiInfoToPDF(KanjiInfo info, String filePath) throws Exception 
+	public void exportKanjiToPDF(KanjiInfo info, File saveFile) 
 	{
 	    Document document = new Document();
-	    PdfWriter.getInstance(document, new FileOutputStream(filePath));
-	    document.open();
 
-	    document.add(new Paragraph("Kanji: " + info.getKanji()));
-	    document.add(new Paragraph("Meaning: " + info.getMeanings()));
-	    document.add(new Paragraph("On'yomi: " + String.join(", ", info.getOnReadings())));
-	    document.add(new Paragraph("Kun'yomi: " + String.join(", ", info.getKunReadings())));
+	    try {
+	        PdfWriter.getInstance(document, new FileOutputStream(saveFile));
+	        document.open();
 
-	    document.close();
+	        // Set a font that supports Japanese characters (you can use a system or bundled font)
+	        Font kanjiFont = FontFactory.getFont(FontFactory.HELVETICA, BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 60);
+	        Font labelFont = FontFactory.getFont(FontFactory.HELVETICA, 14);
+
+	        // Kanji character
+	        Paragraph kanjiPara = new Paragraph(info.getKanji(), kanjiFont);
+	        kanjiPara.setAlignment(Paragraph.ALIGN_CENTER);
+	        document.add(kanjiPara);
+
+	        // Meanings
+	        Paragraph meanings = new Paragraph("Meanings: " + String.join(", ", info.getMeanings()), labelFont);
+	        document.add(meanings);
+
+	        // On'yomi
+	        Paragraph onyomi = new Paragraph("On'yomi: " + String.join(", ", info.getOnReadings()), labelFont);
+	        document.add(onyomi);
+
+	        // Kun'yomi
+	        Paragraph kunyomi = new Paragraph("Kun'yomi: " + String.join(", ", info.getKunReadings()), labelFont);
+	        document.add(kunyomi);
+
+	    } 
+	    catch (DocumentException | IOException e) 
+	    {
+	        e.printStackTrace();
+	    } 
+	    finally 
+	    {
+	        document.close();
+	    }
 	}
 }

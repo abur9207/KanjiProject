@@ -58,6 +58,7 @@ public class InputPanel extends JPanel
     	inputBar.add(inputField);
     	inputBar.add(searchButton);
     	inputBar.add(downloadPDFButton);
+    	inputBar.add(randomButton);
     	
     	this.add(inputBar, BorderLayout.CENTER);
 	}

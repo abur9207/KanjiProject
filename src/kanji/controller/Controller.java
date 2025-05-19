@@ -13,6 +13,10 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
@@ -25,6 +29,7 @@ import kanji.view.KanjiFrame;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -42,6 +47,7 @@ public class Controller
 	private String KanjiURLBase;
 
 	public Kanji currentKanji;
+	public List<String> allKanji = 
 	KanjiParser parser = new KanjiParser();
 	
 	private KanjiFrame window;
@@ -225,5 +231,84 @@ public class Controller
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
+	}
+	
+	public List<String> fetchAllJoyoKanji() 
+	{
+	    List<String> kanjiList = new ArrayList<>();
+	    try {
+	        URL url = new URL("https://kanjiapi.dev/v1/kanji/joyo");
+	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	        conn.setRequestMethod("GET");
+
+	        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	        StringBuilder json = new StringBuilder();
+	        String line;
+	        while ((line = reader.readLine()) != null) {
+	            json.append(line);
+	        }
+	        reader.close();
+
+	        // Assume it's a simple JSON array of strings
+	        Gson gson = new Gson();
+	        String[] kanjiArray = gson.fromJson(json.toString(), String[].class);
+
+	        kanjiList = Arrays.asList(kanjiArray);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return kanjiList;
+	}
+	
+	public List<String> fetchAllJinmeiyouKanji() 
+	{
+	    List<String> kanjiList = new ArrayList<>();
+	    try {
+	        URL url = new URL("https://kanjiapi.dev/v1/kanji/jinmeiyou");
+	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	        conn.setRequestMethod("GET");
+
+	        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	        StringBuilder json = new StringBuilder();
+	        String line;
+	        while ((line = reader.readLine()) != null) {
+	            json.append(line);
+	        }
+	        reader.close();
+
+	        // Assume it's a simple JSON array of strings
+	        Gson gson = new Gson();
+	        String[] kanjiArray = gson.fromJson(json.toString(), String[].class);
+
+	        kanjiList = Arrays.asList(kanjiArray);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return kanjiList;
+	}
+	
+	public void initializeKanjiList() 
+	{
+	    try 
+	    {
+	        List<String> joyo = fetchAllJoyoKanji();
+	        List<String> jinmei = fetchAllJinmeiyouKanji();
+	        
+	        allKanji.clear();
+	        allKanji.addAll(joyo);
+	        allKanji.addAll(jinmei);
+	    } 
+	    catch (IOException e) 
+	    {
+	        handleError(e);
+	    }
+	}
+	
+	public String getRandomKanji() {
+	    if (allKanji.isEmpty()) {
+	        initializeKanjiList();
+	    }
+	    int index = new Random().nextInt(allKanji.size());
+	    return allKanji.get(index);
 	}
 }

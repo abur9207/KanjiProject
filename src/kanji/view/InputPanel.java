@@ -29,6 +29,7 @@ public class InputPanel extends JPanel
 	private JTextField inputField;
     private JButton searchButton;
     private JButton downloadPDFButton;
+    private JButton randomButton;
     private Controller app;
     private JPanel inputBar;
     private KanjiCharacterPanel charactersPanel;
@@ -42,6 +43,7 @@ public class InputPanel extends JPanel
     	this.inputBar = new JPanel();
     	this.inputField = new JTextField(10);
     	this.searchButton = new JButton("Search");
+    	this.randomButton = new JButton("Random Kanji Button");
     	this.downloadPDFButton = new JButton("Download as PDF");
     	
     	setupLayout();
@@ -112,6 +114,12 @@ public class InputPanel extends JPanel
 		            JOptionPane.showMessageDialog(this, "Failed to save PDF.", "Error", JOptionPane.ERROR_MESSAGE);
 		        }
 		    }
+		});
+		
+		randomButton.addActionListener(e -> {
+			String randomKanji = app.getRandomKanji(); //method to build next
+			KanjiInfo info = app.getKanjiInfo(randomKanji);
+			app.getCharactersPanel().updateDisplay(info);
 		});
 	}
 	

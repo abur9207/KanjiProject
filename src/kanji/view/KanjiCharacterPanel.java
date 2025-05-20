@@ -18,6 +18,10 @@ import kanji.controller.Controller;
 import kanji.model.KanjiInfo;
 import kanji.model.KanjiParser;
 
+/**
+ * KanjiCharacterPanel is responsible for displaying detailed kanji information,
+ * including the character, meanings, and readings, in a structured layout.
+ */
 public class KanjiCharacterPanel extends JPanel
 {
 	private JLabel kanjiLabel;
@@ -31,7 +35,11 @@ public class KanjiCharacterPanel extends JPanel
 	
 	KanjiParser parser = new KanjiParser();
 	
-	
+	/**
+	 * Constructs a KanjiCharacterPanel used to display kanji details.
+	 *
+	 * @param app the main controller instance (unused in this class but can be extended)
+	 */
 	public KanjiCharacterPanel(Controller app)
 	{
 		super();
@@ -51,7 +59,10 @@ public class KanjiCharacterPanel extends JPanel
 		setupPanel();
 		setupLayout();
 	}
-	
+
+	/**
+	 * Initializes and configures the components used for displaying kanji information.
+	 */
 	private void setupPanel()
 	{
 		infoPanel.updateText("Enter a kanji in the search bar, or click \"Random Kanji Button\" to begin.");
@@ -68,8 +79,8 @@ public class KanjiCharacterPanel extends JPanel
     	
     	this.add(ContentPanel);
     	
-    	textArea.setLineWrap(true);                  // Enable wrapping
-        textArea.setWrapStyleWord(true);             // Wrap at word boundaries                
+    	textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
         textArea.setEditable(false);
         textArea.setOpaque(false);
         textArea.setBackground(null);
@@ -81,7 +92,10 @@ public class KanjiCharacterPanel extends JPanel
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
 	}
-	
+
+	/**
+	 * Sets up the overall layout and spacing of the panel.
+	 */
 	private void setupLayout()
 	{
 		setLayout(new GridBagLayout());
@@ -93,9 +107,13 @@ public class KanjiCharacterPanel extends JPanel
 		this.add(kanjiLabel);
 		this.add(Box.createVerticalStrut(20));
 		this.add(infoPanel);
-
 	}
-	
+
+	/**
+	 * Updates the kanji character and its associated details on the panel.
+	 *
+	 * @param info the KanjiInfo object containing kanji data to display
+	 */
 	public void updateDisplay(KanjiInfo info) {
 	    if (info == null) {
 	        kanjiLabel.setText("No kanji found.");
@@ -113,11 +131,13 @@ public class KanjiCharacterPanel extends JPanel
 	    infoPanel.updateText(text.toString());
 	}
 
-	
+	/**
+	 * Gets the currently displayed KanjiInfo.
+	 *
+	 * @return the current KanjiInfo object
+	 */
 	public KanjiInfo getCurrentKanjiInfo() 
 	{
 	    return currentInfo;
 	}
-	
-	
 }

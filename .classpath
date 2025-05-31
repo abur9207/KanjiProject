@@ -12,5 +12,10 @@
 	<classpathentry kind="lib" path="jackson-databind-2.18.3.jar"/>
 	<classpathentry kind="lib" path="itextpdf-5.5.13.3.jar"/>
 	<classpathentry kind="lib" path="gson-2.10.1.jar"/>
+	<classpathentry kind="lib" path="lib/gson-2.10.1.jar"/>
+	<classpathentry kind="lib" path="lib/itextpdf-5.5.13.3.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-annotations-2.18.3.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-core-2.18.3.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-databind-2.18.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
